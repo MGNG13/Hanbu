@@ -1,0 +1,96 @@
+div.alert {
+    border: 2px solid rgb(155, 90, 216);
+    background-color: rgb(255, 255, 255);
+    margin: 25px;
+    padding: 50px;
+}
+
+div.alert h1 {
+    text-align: center;
+    color: rgb(155, 90, 216);
+}
+
+div.contents {
+    margin-top: 25px;
+    display: flex;
+    background-color: white;
+    width: 97%;
+    border: 2px solid rgb(155, 90, 216);
+}
+
+div.contents_menu {
+    width: 25%;
+    padding: 25px;
+}
+
+div.contents_contents {
+    border-left: 2px solid rgb(155, 90, 216);
+    width: 75%;
+    height: 100%;
+    padding: 20px;
+    display: block;
+}
+
+p.contents_contents_title {
+    text-decoration: underline;
+    font-weight: 1000;
+    margin-bottom: 10px;
+}
+
+p.contents_menu_title {
+    text-decoration: underline;
+    font-weight: bolder;
+    font-size: larger;
+}
+
+p.contents_menu_subcontent_title {
+    cursor: pointer;
+    padding: 5px;
+    margin-left: 15px;
+    font-weight: 10;
+}
+
+p.contents_menu_subcontent_title:hover {
+    color: rgb(251, 134, 229);
+    text-decoration: rgb(155, 90, 216) wavy underline;
+    font-weight: bolder;
+}
+
+div.contents_content_draggable {
+    border: 2px solid rgb(221, 221, 255);
+    background-color: rgb(246, 246, 255);
+    border-radius: 12px;
+    padding: 15px 6px 15px 6px;
+}
+
+p.contents_content_draggable_item {
+    display: inline;
+    background-color: #e0d1fe;
+    padding: 7px;
+    margin: 5px;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+p.contents_content_draggable_item:hover {
+    outline: 3px solid rgb(184, 109, 255, 0.3);
+    color: white;
+    background-color: rgb(155, 90, 216);
+}
+
+div.contents_content_questions {
+    padding: 5px;
+    margin-top: 10px;
+    background-color: rgb(246, 246, 255);
+    border: 2px solid rgb(221, 221, 255);
+    border-radius: 15px;
+}
+
+p.contents_content_questions_item {
+    background-color: white;
+    border-radius: 15px;
+    border: 2px solid rgb(155, 90, 216, 0.2);
+    margin: 5px;
+    display: block;
+    padding: 15px;
+}

@@ -1,0 +1,66 @@
+* {
+    color: rgb(155, 90, 216);
+    margin: auto;
+    font-family: "Courier New", Courier, monospace;
+    font-weight: bolder;
+    font-size: large;
+    transition: 120ms;
+}
+
+body {
+    padding: 35px;
+    background: rgb(255, 188, 240);
+}
+
+button {
+    box-shadow: 3px 3px 0 rgb(255, 255, 255, 0.6);
+    background: rgb(251, 134, 229);
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 7px;
+    margin: 25px;
+    cursor: pointer;
+}
+
+button:hover {
+    outline: 2px solid rgb(155, 90, 216);
+    box-shadow: 10px 10px 0 rgb(255, 139, 234);
+    background: rgb(255, 255, 255);
+    color: rgb(251, 134, 229);
+}
+
+::placeholder {
+    color: rgb(150, 150, 150);
+}
+
+input, textarea {
+    color: black;
+    width: 96%;
+    padding: 15px;
+    outline: none;
+    border: none;
+    border-radius: 15px;
+    margin: 10px;
+    display: block;
+}
+
+input:focus, textarea:focus {
+    box-shadow: 15px 15px 0 rgb(251, 134, 229);
+    outline: 3px solid rgb(155, 90, 216);
+}
+
+footer.footer_information {
+    margin: 25px;
+    text-align: center;
+}
+
+footer.footer_information p, footer.footer_information a {
+    font-weight: 100;
+    font-size: 9px;
+    color: rgb(0, 0, 0, 0.8);
+}
+
+footer.footer_information a {
+    font-weight: 600;
+}

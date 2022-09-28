@@ -6,6 +6,12 @@
     font-size: large;
     transition: 120ms;
 }
+::-moz-selection {
+    background: rgba(110, 53, 185, 0.3);
+}
+::selection {
+    background: rgba(110, 53, 185, 0.3);
+}
 
 body {
     padding: 35px;

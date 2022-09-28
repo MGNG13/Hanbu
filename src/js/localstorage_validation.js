@@ -1,37 +1,21 @@
 (async () => {
     // Catch all errors and show to user...
     try {
-        const loaded_json_contents = JSON.stringify(JSON.parse(await localStorage.getItem("contents")), null, 2);
+        const loaded_json_contents = JSON.stringify(JSON.parse(await localStorage.getItem('contents')), null, 2);
         if (loaded_json_contents === null || loaded_json_contents === undefined ||
-            loaded_json_contents === "{}" || loaded_json_contents === "" ||
-            loaded_json_contents === "null"
-        ) await localStorage.setItem("contents", JSON.stringify({
-            "Lesson 1": {
-                "Subcontenido 1": {
-                    "Coreano1": "Espanol1",
-                    "Coreano2": "Espanol2",
-                    "Coreano3": "Espanol3",
-                    "Coreano4": "Espanol4"
+            loaded_json_contents === '{}' || loaded_json_contents === '' ||
+            loaded_json_contents === 'null'
+        ) await localStorage.setItem('contents', JSON.stringify({
+            'Lesson1': {
+                'Sub1': {
+                    '1-0': '1-1',
+                    '2-0': '2-1',
+                    '3-0': '3-1'
                 },
-                "Subcontenido 2": {
-                    "Coreano5": "Espanol5",
-                    "Coreano6": "Espanol6",
-                    "Coreano7": "Espanol7",
-                    "Coreano8": "Espanol8"
-                }
-            },
-            "Lesson 2": {
-                "Subcontenido 1": {
-                    "Coreano9": "Espanol9",
-                    "Coreano10": "Espanol10",
-                    "Coreano11": "Espanol11",
-                    "Coreano12": "Espanol12"
-                },
-                "Subcontenido 2": {
-                    "Coreano13": "Espanol13",
-                    "Coreano14": "Espanol14",
-                    "Coreano15": "Espanol15",
-                    "Coreano16": "Espanol16"
+                'Sub2': {
+                    '5-0': '5-1',
+                    '6-0': '6-1',
+                    '7-0': '7-1'
                 }
             }
         }));

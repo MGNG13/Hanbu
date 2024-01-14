@@ -3,6 +3,7 @@ div.alert {
     background-color: rgb(255, 255, 255);
     margin: 25px;
     padding: 50px;
+    border-radius: 15px;
 }
 
 div.alert h1 {
@@ -11,6 +12,7 @@ div.alert h1 {
 }
 
 div.contents {
+    border-radius: 15px;
     margin-top: 25px;
     display: flex;
     background-color: white;

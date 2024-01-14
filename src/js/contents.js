@@ -30,8 +30,7 @@
 
             async function getSavedContent() {
                 try {
-                    const content = await localStorage.getItem('contents');
-                    return JSON.parse(content);
+                    return JSON.parse(await localStorage.getItem('contents'));
                 } catch (error) {
                     return {};
                 }
@@ -80,16 +79,16 @@
             }
 
             button_close.onclick = async () => {
-                if (textarea_contents.value !== loaded_json_contents)
+                if (textarea_contents.value !== loaded_json_contents) {
                     if (!confirm('Deseas salir sin guardar?'))
                         return;
+                }
                 window.close();
             };
 
             button_save.onclick = async () => {
                 if (!confirm('Deseas guardar los datos? No hay vuelta atras.'))
                     return;
-
                 try {
                     const new_json_contents = JSON.parse(textarea_contents.value);
                     if (!validateJSON(new_json_contents)) {
@@ -102,6 +101,7 @@
 
                     const message = 'Guardado exitosamente.';
                     document.title = `${pwa_title} - ${message}`;
+
                     alert(`${message}\nRecarga la pagina de Home para ver los contenidos actualizados.`);
                     document.location.reload();
                 } catch (error) {

@@ -9,6 +9,14 @@
             const contents_menu = document.getElementById('contents_menu');
             const contents_contents = document.getElementById('contents_contents');
 
+            // variables
+            let menuHtml = '';
+            let correctQuestions = [];
+            let correctAnswersCount = 0;
+            let correctAnswersArray = [];
+            let contentElements = [];
+            let answersQuestions = [];
+
             // onstart
             const pwa_title = 'Hanbu';
             document.title = `${pwa_title} - Home`;
@@ -23,15 +31,12 @@
                     document.title = `${pwa_title} - Home`;
                 }, 1000);
             }
-
             function getId(value) {
                 return randomizeString(randomizeString((value + '').replace(' ', '').replace('\n', '').toLowerCase() + Math.floor(Math.random() * new Date().getTime())));
             }
-
             function randomizeString(string) {
                 return string.split('').sort(() => { return 0.3 - Math.random() }).join('');
             }
-
             async function getSavedContent() {
                 try {
                     const content = await localStorage.getItem('contents');
@@ -40,7 +45,6 @@
                     return {};
                 }
             }
-
             function shuffleArray(array) {
                 let currentIndex = array.length, randomIndex;
                 // While there remain elements to shuffle.
@@ -53,23 +57,18 @@
                 }
                 return array;
             }
-
             async function loadContentAndInner(json) {
                 // remove all elements
                 contents_menu.innerHTML = '';
                 contents_contents.innerHTML = '';
 
+                // reset variables
+                correctAnswersCount = 0;
+                correctAnswersArray = [];
+                answersQuestions = [];
+                contentElements = [];
+
                 const keysTitle = Object.keys(json);
-
-                let menuHtml = '';
-
-                let correctQuestions = [];
-                let correctAnswersCount = 0;
-                let correctAnswersArray = [];
-
-                let contentElements = [];
-                let answersQuestions = [];
-
                 for (let keysTitleIndex in keysTitle) {
                     const jsonKeysFromTitle = json[keysTitle[keysTitleIndex]];
                     const title = keysTitle[keysTitleIndex];
@@ -92,96 +91,98 @@
 
                 // replace all elements
                 contents_menu.innerHTML = menuHtml;
+            }
 
-                // handler drag n drop
-                document.ondragover = (event) => event.preventDefault();
-                document.ondragstart = (event) => event.dataTransfer.setData('id', event.target.id);
-                document.ondrop = (event) => {
-                    event.preventDefault();
-                    try {
-                        const targetElement = document.getElementById(event.dataTransfer.getData('id'));
-                        if (event.target.localName === 'p' &&
-                            event.target.className === 'contents_content_questions_item' &&
-                            event.target.childElementCount === 0
-                        ) {
-                            answersQuestions.push(JSON.parse(`{"${targetElement.textContent}": "${event.target.textContent.replace(targetElement.textContent, '')}"}`));
-                            event.target.appendChild(document.getElementById(event.dataTransfer.getData('id')));
-                        }
-                    } catch (ignored) {
-                    } finally {
-                        if (correctQuestions.length === answersQuestions.length) {
-                            for (index in correctQuestions)
-                                for (indexAnswers in answersQuestions)
-                                    if (Object.keys(answersQuestions[indexAnswers])[0] === Object.keys(correctQuestions[index])[0]) {
-                                        if (Object.values(answersQuestions[indexAnswers])[0] === Object.values(correctQuestions[index])[0]) {
-                                            correctAnswersArray.push(JSON.parse(`{"${Object.keys(correctQuestions[index])[0]}":"${Object.values(correctQuestions[index])[0]}"}`));
-                                            correctAnswersCount++;
-                                        }
-                                        break;
-                                    }
-                            const extraMsg = correctAnswersCount >= 1 ? `\n\n${JSON.stringify(correctAnswersArray, null, 4)}` : '';
-                            alert(`Tuviste correctos ${correctAnswersCount}.${extraMsg}`);
-                            window.location.reload();
-                        }
+            // handler drag n drop
+            document.ondragover = (event) => event.preventDefault();
+            document.ondragstart = (event) => event.dataTransfer.setData('id', event.target.id);
+            document.ondrop = (event) => {
+                event.preventDefault();
+                try {
+                    const targetElement = document.getElementById(event.dataTransfer.getData('id'));
+                    if (event.target.localName === 'p' &&
+                        event.target.className === 'contents_content_questions_item' &&
+                        event.target.childElementCount === 0
+                    ) {
+                        answersQuestions.push(JSON.parse(`{"${targetElement.textContent}": "${event.target.textContent.replace(targetElement.textContent, '')}"}`));
+                        event.target.appendChild(document.getElementById(event.dataTransfer.getData('id')));
                     }
-                }
-
-                document.onclick = (event) => {
-                    const element = event.target;
-
-                    // menu handler
-                    if (element.localName === 'p' && element.className === 'contents_menu_subcontent_title')
-                        for (let indexContentElement in contentElements)
-                            if (contentElements[indexContentElement].id === element.id) {
-                                // remove all elements in content section
-                                contents_contents.innerHTML = '';
-
-                                // data
-                                const jsonContent = contentElements[indexContentElement].content;
-                                const keys = Object.keys(jsonContent);
-
-                                // html logic
-                                let htmlBase = `<p class='contents_contents_title'>${contentElements[indexContentElement].title} ➤ ${contentElements[indexContentElement].subcontent}</p>`;
-                                let htmlDraggable = '';
-                                let htmlQuestions = '';
-
-                                let htmlDraggableArray = [];
-                                let htmlQuestionsArray = [];
-
-                                htmlDraggable += `<div class='contents_content_draggable'>`;
-                                htmlQuestions += `<div class='contents_content_questions'>`;
-                                for (let index in keys) {
-                                    correctQuestions.push(JSON.parse(`{"${keys[index]}":"${jsonContent[keys[index]]}"}`));
-                                    htmlDraggableArray.push(`<p id='${getId(contentElements[indexContentElement].subcontent)}' reference='${element.id}' draggable='true' class='contents_content_draggable_item'>${keys[index]}</p>`);
-                                    htmlQuestionsArray.push(`<p reference='${element.id}' class='contents_content_questions_item'>${jsonContent[keys[index]]}</p>`);
+                } catch (ignored) {
+                } finally {
+                    console.log(correctQuestions, answersQuestions);
+                    if (correctQuestions.length === answersQuestions.length) {
+                        for (index in correctQuestions)
+                            for (indexAnswers in answersQuestions)
+                                if (Object.keys(answersQuestions[indexAnswers])[0] === Object.keys(correctQuestions[index])[0]) {
+                                    if (Object.values(answersQuestions[indexAnswers])[0] === Object.values(correctQuestions[index])[0]) {
+                                        correctAnswersArray.push(JSON.parse(`{"${Object.keys(correctQuestions[index])[0]}":"${Object.values(correctQuestions[index])[0]}"}`));
+                                        correctAnswersCount++;
+                                    }
+                                    break;
                                 }
-                                htmlQuestions += shuffleArray(htmlQuestionsArray).join('');
-                                htmlDraggable += shuffleArray(htmlDraggableArray).join('');
-
-                                htmlQuestions += `</div>`;
-                                htmlDraggable += `</div>`;
-
-                                htmlBase += htmlDraggable;
-                                htmlBase += htmlQuestions;
-
-                                // inner to document
-                                contents_contents.innerHTML = htmlBase;
-                                correctAnswersCount = 0;
-                                correctAnswersArray = [];
-                                answersQuestions = [];
-                                break;
-                            }
+                        const extraMsg = correctAnswersCount >= 1 ? `\n\n${JSON.stringify(correctAnswersArray, null, 4)}` : '';
+                        alert(`Tuviste correctos ${correctAnswersCount}.${extraMsg}`);
+                        window.location.reload();
+                    }
                 }
             }
 
-            // events
-            await loadContentAndInner(await getSavedContent());
-            showAlert('Contenidos cargados exitosamente.');
+            document.onclick = (event) => {
+                const element = event.target;
+                // menu handler
+                if (element.localName === 'p' && element.className === 'contents_menu_subcontent_title') {
+                    correctAnswersCount = 0;
+                    correctAnswersArray = [];
+                    correctQuestions = [];
+                    answersQuestions = [];
+
+                    for (let indexContentElement in contentElements)
+                        if (contentElements[indexContentElement].id === element.id) {
+                            // remove all elements in content section
+                            contents_contents.innerHTML = '';
+
+                            // data
+                            const jsonContent = contentElements[indexContentElement].content;
+                            const keys = Object.keys(jsonContent);
+
+                            // html logic
+                            let htmlBase = `<p class='contents_contents_title'>${contentElements[indexContentElement].title} ➤ ${contentElements[indexContentElement].subcontent}</p>`;
+                            let htmlDraggable = '';
+                            let htmlQuestions = '';
+
+                            let htmlDraggableArray = [];
+                            let htmlQuestionsArray = [];
+
+                            htmlDraggable += `<div class='contents_content_draggable'>`;
+                            htmlQuestions += `<div class='contents_content_questions'>`;
+                            for (let index in keys) {
+                                correctQuestions.push(JSON.parse(`{"${keys[index]}":"${jsonContent[keys[index]]}"}`));
+                                htmlDraggableArray.push(`<p id='${getId(contentElements[indexContentElement].subcontent)}' reference='${element.id}' draggable='true' class='contents_content_draggable_item'>${keys[index]}</p>`);
+                                htmlQuestionsArray.push(`<p reference='${element.id}' class='contents_content_questions_item'>${jsonContent[keys[index]]}</p>`);
+                            }
+                            htmlQuestions += shuffleArray(htmlQuestionsArray).join('');
+                            htmlDraggable += shuffleArray(htmlDraggableArray).join('');
+
+                            htmlQuestions += `</div>`;
+                            htmlDraggable += `</div>`;
+
+                            htmlBase += htmlDraggable;
+                            htmlBase += htmlQuestions;
+
+                            // inner to document
+                            contents_contents.innerHTML = htmlBase;
+                            break;
+                        }
+                }
+            }
 
             button_reload.onclick = async () => {
                 await loadContentAndInner(await getSavedContent());
                 showAlert('Datos recargados exitosamente.');
             }
+
+            await loadContentAndInner(await getSavedContent());
+            showAlert('Contenidos cargados exitosamente.');
         } catch (error) {
             const [, line, col] = error.stack.match(/(\d+):(\d+)/);
             alert(`Al parecer ocurrio un error. Notifica este error a el desarrollador:\n\n${error} ${line}:${col}`);
